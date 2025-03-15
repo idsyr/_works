@@ -1,0 +1,49 @@
+#+title: how to install ncs toolchain if you get Error: Failed to retrieve toolchain-index.
+#+author: idsyr
+
+* Step 1: use the opensource zephyr toolchain
+- Dont use nRF Connect for VS Code Extension Pack, instead read how to build using west: https://docs.zephyrproject.org/latest/zephyr.pdf
+* Step 2: download with vpn
+- Open "Output", "nRF Connect" in vscode
+- youll see smth like this:
+#+begin_src txt
+Caused by:
+    0: Failed to download index
+    1: Get request failed
+    2: https://files.nordicsemi.com/NCS/external/bundles/v3/index-linux-x86_64.json: status code 403
+#+end_src
+- enable vpn, goto the site
+- in json file find you version, for example for v2.7.0. To start the downloading you need to visit the site:
+#+begin_src txt
+https://files.nordicsemi.com/NCS/external/bundles/v3/ncs-toolchain-x86_64-linux-e9dba88316.tar.gz
+#+end_src
+* place files to the correct location
+- mkdir -p ~/ncs/toolchains/
+- tar -xf ncs-toolchain -C  ~/ncs/toolchains/
+- rename to e9dba88316 or what code you have
+- finaly:
+#+begin_src txt
+ncs  toolchains  e9dba88316 
+#+end_src
+* Add toolchains.json to the toolchains folder
+#+begin_src json
+[
+  {
+    "default_toolchain": {
+      "ncs_version": "v2.7.0"
+    },
+    "schema": 1,
+    "toolchains": [
+      {
+        "identifier": {
+          "bundle_id": "e9dba88316"
+        },
+        "ncs_versions": [
+          "v2.7.0"
+        ]
+      }
+    ]
+  }
+]
+#+end_src
+- SDK installation works fine

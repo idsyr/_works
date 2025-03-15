@@ -1,0 +1,8 @@
+#+title: how to install jlink soft from .tgz file
+#+author: idsyr
+
+** right location:
+#+begin_src bash
+/opt/SEGGER/JLink/
+#+end_src
+- then follow README.txt

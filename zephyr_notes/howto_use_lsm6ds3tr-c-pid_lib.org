@@ -1,0 +1,40 @@
+#+title: how to use lsm6ds3tr-c-pid lib in Zephyr
+#+author: idsyr
+
+* LINK
+- https://github.com/STMicroelectronics/lsm6ds3tr-c-pid
+* I2C
+#+begin_src C++
+int32_t platform_write(void *handle, uint8_t reg, const uint8_t *bufp, uint16_t len) {
+    i2c_burst_write(handle, 0x6B, reg, bufp, len);
+}
+
+int32_t platform_read(void *handle, uint8_t reg, uint8_t *bufp, uint16_t len) {
+    i2c_burst_read(handle, 0x6B, reg, bufp, len);
+}
+
+void platform_delay(uint32_t delay) {
+    k_msleep(delay);
+}
+
+stmdev_ctx_t ctx = {
+    .write_reg = platform_write,
+    .read_reg  = platform_read,
+    .mdelay    = platform_delay,
+    .handle    = DEVICE_DT_GET(DT_NODELABEL(i2c0)),
+};
+#+end_src
+
+* .dts
+#+begin_src dts
+freefall_int: accel_intpin1 {
+	gpios = <&gpio<X1> <X2> (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+	label = "i am the event when you come for freefall";
+	zephyr,code = <INPUT_KEY_DOWN>;
+};
+activity_int: accel_intpin2 {
+	gpios = <&gpio<Y1> <Y2> (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+	label = "i am the event when you come for activity";
+	zephyr,code = <INPUT_KEY_WAKEUP>;
+};
+#+end_src

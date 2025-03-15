@@ -1,0 +1,24 @@
+#+title: PARTITIONS_MANAGER: how to use partitions
+#+author: idsyr
+
+* pm_static.yml
+- add in dir(CMakeLists.txt) 
+#+begin_src yml
+settings_partition:
+    region: flash_primary
+    address: 0x7a000
+    size: 0x6000
+#+end_src
+
+
+* usage.c
+#+begin_src C++
+#define TARGET_PARTITION PM_SETTIINGS_PARTITION_NAME
+#define TARGET_PARTITION_DEVICE FIXED_PARTITION_DEVICE(TARGET_PARTITION)
+#define TARGET_PARTITION_OFFSET FIXED_PARTITION_OFFSET(TARGET_PARTITION)
+
+void fun() { // use the settings with NVS instead
+    struct device *flash_dev = RP_PARTITION_DEVICE ;
+}
+#+end_src
+

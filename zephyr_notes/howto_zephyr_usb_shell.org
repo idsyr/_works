@@ -1,0 +1,63 @@
+#+title: HOW TO: zephyr install USB ACM shell
+#+author: idsyr
+* INFO
+- Zephyr ver: 3.6.99
+- https://docs.zephyrproject.org/latest/services/shell/index.html
+* <board_name>.dts
+#+begin_src dts
+/ {
+    chosen {
+        zephyr,console = &snippet_cdc_acm_console_uart;
+        zephyr,shell-uart = &snippet_cdc_acm_console_uart;
+    }
+}
+// outside the root node:
+zephyr_udc0: &usbd {
+    status = "okay";
+    snippet_cdc_acm_console_uart: snippet_cdc_acm_console_uart {
+        compatible = "zephyr,cdc-acm-uart
+    };
+};
+#+end_src
+
+* prg.conf
+#+begin_src conf
+CONFIG_USB_DEVICE_STACK=y
+CONFIG_USB_DEVICE_PRODUCT="smth with shell"
+CONFIG_USB_DEVICE_PID=0x0004
+
+CONFIG_SERIAL=y
+CONFIG_CONSOLE=y
+CONFIG_UART_CONSOLE=y
+CONFIG_UART_LINE_CTRL=y
+CONFIG_SHELL=y
+#+end_src
+
+* shell.c
+#+begin_src C
+const struct device *dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_shell_uart));
+static uint32_t dtr = 0;
+
+int subcmd_love(const struct shell *sh, size_t argc, char **argv) {
+	shell_print(sh, "Not war.");
+	return 0;
+}
+
+SHELL_STATIC_SUBCMD_SET_CREATE(sub_make, 
+	SHELL_CMD(love, NULL, "love", subcmd_love),
+	SHELL_SUBCMD_SET_END	
+);
+
+SHELL_CMD_REGISTER(make, &sub_make, "make", NULL);
+
+
+int app_shell_init() {
+    #if DT_NODE_HAS_COMPAT(DT_CHOSEN(zephyr_shell_uart), zephyr_cdc_acm_uart)
+        if(!device_is_ready(dev) || usb_enable(NULL)) {
+            return 0;
+        }
+        return -1;
+    #endif
+    return -1;
+}
+#+end_src
