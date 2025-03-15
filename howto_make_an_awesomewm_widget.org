@@ -1,0 +1,24 @@
+#+title: how to make an AwesomeWM widget
+#+author: idsyr
+
+* in rc.lua
+#+begin_src lua
+awful.rules.rules = {
+-- ...
+	{ rule = { instance = "widget_testing_concept" },
+	  properties = {
+		 floating = true,
+		 --ontop = false,
+		 sticky = true,
+		 placement = awful.placement.top_right,
+		 focusable = false,
+		 titlebars_enabled = true,
+		 below = true,
+	  }
+	},
+-- ...
+}
+-- ...
+---------------------------------------------------------------------| Autostart application |------------
+awful.spawn.single_instance("widget_testing_concept", {})
+#+end_src
