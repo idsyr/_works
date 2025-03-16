@@ -1,6 +1,9 @@
-// -------------------------------
+// ----------------------------------------
 // input format: N, a0, a1, ... an
-// -------------------------------
+// ----------------------------------------
+// gcc sorts.c -o sorts.x -DINSERTION_SORT
+// gcc sorts.c -o sorts.x -DSELECTION_SORT
+// ----------------------------------------
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,7 +14,7 @@ void read_input (int ** arr, int * arr_sz_ptr);
 
 
 int main ()
-{  int* arr;
+{  int * arr;
    int arr_sz;
    read_input(&arr, &arr_sz);
    defined_op(arr, arr_sz);
@@ -61,7 +64,7 @@ static int shift (int * arr, int a_pos, int b_pos)
 }
 
 
-static int insert_in_sorted (int* arr, int arr_sz, int el_pos)
+static int insert_in_sorted (int * arr, int arr_sz, int el_pos)
 {  int el = arr[el_pos];
    for (int i = 0; i<arr_sz; ++i)
    {  if (el < arr[i])
@@ -109,7 +112,7 @@ static int pos_min (const int * arr, int start, int end)
 }
 
 
-int defined_op(int *arr, int arr_sz)
+int defined_op (int * arr, int arr_sz)
 {  for(int i = 0; i<arr_sz; ++i)
    { swap_in_arr(arr, i, pos_min(arr, i, arr_sz)); }
    return 1;
