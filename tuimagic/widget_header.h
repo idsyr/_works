@@ -12,7 +12,7 @@
 struct widget_header;
 typedef struct widget_header widget_header_t;
 
-typedef void ( *destruct_f )( void * conrete_is_destructable );
+typedef void ( *destruct_f )( void * concrete_is_destructable );
 typedef void ( *draw_f )( void * concrete_is_drawable, area_t on_place );
 typedef void ( *absorb_f )( void * concrete_is_absorbing, widget_header_t abosrbable_header );
 

@@ -16,6 +16,7 @@ darrayof_widget_header_t * create_darrayof_widget_header_t( int sz ) {
   return res;
 }
 
+// TODO: ring buffer
 int add( darrayof_widget_header_t * h, widget_header_t w ) {
   if ( h->curr + 1 < h->sz ) {
     h->arr[h->curr++] = w; // TODO: create on place
@@ -25,6 +26,7 @@ int add( darrayof_widget_header_t * h, widget_header_t w ) {
   return 0;
 }
 
+// TODO: ring buffer
 static void forall_no_arg( darrayof_widget_header_t * h, void ( *fun_forall )( widget_header_t h ) ) {
   for ( int i = 0, last_i = h->curr; i < last_i; ++i ) {
     fun_forall( h->arr[i] );
@@ -37,6 +39,7 @@ void destruct_darray( darrayof_widget_header_t * h ) {
   free( h );
 }
 
+// TODO: ring buffer
 void forall( darrayof_widget_header_t * h, void ( *fun_forall )( widget_header_t h, void * pack ), void * pack ) {
   for ( int i = 0, last_i = h->curr; i < last_i; ++i ) {
     fun_forall( h->arr[i], pack );
