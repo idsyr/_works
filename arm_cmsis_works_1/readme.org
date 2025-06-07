@@ -1,0 +1,33 @@
+* ARM Cortex M3 STM32f103xb CMSIS USART HelloWorld 
+** Goals
+- Check vector_table_m3.c and vector_table_stm32f103xb.c
+- Check linker.ld
+- Check load.h
+- Remove Makefile from drafts, revise flags, add header dependencies
+- Remove usart from drafts
+** Not done
+- Remove i2c from drafts
+- Full replacement of startup file (__libc_init_array)
+- tasker-m3 testing environment
+#+begin_src bash
+.
+├── app
+│   ├── board.h
+│   ├── main.c
+│   ├── rcc.h
+│   ├── systick.h
+│   └── usart.h
+├── compile_flags.txt
+├── core
+│   ├── cmsis_gcc.h
+│   ├── core_cm3.h
+│   ├── core_cmFunc.h
+│   ├── core_cmInstr.h
+│   └── vector_table_m3.c
+├── linker.ld
+├── load.h
+├── Makefile
+└── mcu
+    ├── stm32f103xb.h
+    └── vector_table_stm32f103xb.c
+#+end_src
