@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef STM32F1
   #define STM32F1
 #endif

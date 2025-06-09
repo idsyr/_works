@@ -1,4 +1,3 @@
-#include "libopencm3/stm32/f1/nvic.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -10,7 +9,6 @@
 #include "libopencm3/stm32/gpio.h"
 #include "libopencm3/usb/usbd.h"
 #include "libopencm3/usb/cdc.h"
-#include "libopencm3/cm3/nvic.h"
 
 #include "usb_dev_dscrptr.h"
 #include "usb_conf_dscrptr.h"
