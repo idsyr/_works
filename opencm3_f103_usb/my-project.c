@@ -9,6 +9,8 @@
 #include "libopencm3/stm32/gpio.h"
 #include "libopencm3/usb/usbd.h"
 #include "libopencm3/usb/cdc.h"
+#include "libopencm3/stm32/f1/nvic.h"
+#include "libopencm3/stm32/common/timer_common_all.h"
 
 #include "usb_dev_dscrptr.h"
 #include "usb_conf_dscrptr.h"
@@ -18,6 +20,7 @@
 
 static const char * usb_strings[] = { "BigBoobaLovers", "CDC_ACM_DEMO", "SERIAL_NUM.PASTE.HERE." };
 uint8_t             usbd_control_buffer[128];
+usbd_device *       usbd_dev;
 
 static enum usbd_request_return_codes cdcacm_control_request(
     usbd_device * usbd_dev, struct usb_setup_data * req, uint8_t ** buf, uint16_t * len,
@@ -61,8 +64,33 @@ static void led_setup( void ) {
   gpio_set_mode( GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13 );
 }
 
+static void tim2_setup( void ) {
+  rcc_periph_clock_enable( RCC_TIM2 );
+  nvic_enable_irq( NVIC_TIM2_IRQ );
+  rcc_periph_reset_pulse( RST_TIM2 );
+  timer_set_mode( TIM2, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP );
+  timer_set_prescaler( TIM2, ( ( rcc_apb1_frequency * 2 ) / 5000 ) );
+  timer_disable_preload( TIM2 );
+  timer_continuous_mode( TIM2 );
+  timer_set_period( TIM2, 65535 );
+  timer_set_oc_value( TIM2, TIM_OC1, 100 );
+  timer_enable_counter( TIM2 );
+  timer_enable_irq( TIM2, TIM_DIER_CC1IE );
+}
+
+void tim2_isr( void ) {
+  timer_clear_flag( TIM2, TIM_SR_CC1IF );
+  gpio_toggle( GPIOC, GPIO13 );
+}
+
+void usb_wakeup_isr( void ) { usbd_poll( usbd_dev ); }
+
+void usb_lp_can_rx0_isr( void ) { usbd_poll( usbd_dev ); }
+
 int main( void ) {
-  usbd_device * usbd_dev;
+  led_setup();
+  tim2_setup();
+
   rcc_clock_setup_pll( &rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ] );
 
   rcc_periph_clock_enable( RCC_GPIOA );
@@ -71,7 +99,8 @@ int main( void ) {
                         3, usbd_control_buffer, sizeof( usbd_control_buffer ) );
   usbd_register_set_config_callback( usbd_dev, cdcacm_set_config );
 
+  nvic_enable_irq( NVIC_USB_LP_CAN_RX0_IRQ );
+  nvic_enable_irq( NVIC_USB_WAKEUP_IRQ );
   for ( ;; ) {
-    usbd_poll( usbd_dev );
   }
 }
