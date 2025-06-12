@@ -1,4 +1,6 @@
 #pragma once
+#include "libopencm3/usb/hid.h"
+#include "libopencm3/usb/usbstd.h"
 #ifndef STM32F1
   #define STM32F1
 #endif
@@ -38,11 +40,32 @@ static const struct usb_interface_descriptor usb_data_iface_sdcrptr[] = { {
     .endpoint           = usb_data_endp_dscrptr,
 } };
 
-static const struct usb_interface usb_iface[] = { {
-                                                      .num_altsetting = 1,
-                                                      .altsetting     = usb_comm_iface_sdcrptr,
-                                                  },
-                                                  {
-                                                      .num_altsetting = 1,
-                                                      .altsetting     = usb_data_iface_sdcrptr,
-                                                  } };
+static const struct usb_interface_descriptor usb_hid_iface_dscrptr[] = { {
+    .bLength            = USB_DT_INTERFACE_SIZE,
+    .bDescriptorType    = USB_DT_INTERFACE,
+    .bInterfaceNumber   = 2,
+    .bAlternateSetting  = 0,
+    .bNumEndpoints      = 1,
+    .bInterfaceClass    = USB_CLASS_HID,
+    .bInterfaceSubClass = USB_HID_SUBCLASS_BOOT_INTERFACE,
+    .bInterfaceProtocol = USB_HID_INTERFACE_PROTOCOL_KEYBOARD,
+    .iInterface         = 0,
+    .endpoint           = usb_hid_endp_dscrptr,
+    .extra              = &usb_hid_func_dscrptr,
+    .extralen           = sizeof( usb_hid_func_dscrptr ),
+} };
+
+static const struct usb_interface usb_iface[] = {
+    {
+        .num_altsetting = 1,
+        .altsetting     = usb_comm_iface_sdcrptr,
+    },
+    {
+        .num_altsetting = 1,
+        .altsetting     = usb_data_iface_sdcrptr,
+    },
+    {
+        .num_altsetting = 1,
+        .altsetting     = usb_hid_iface_dscrptr,
+    },
+};

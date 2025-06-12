@@ -1,4 +1,5 @@
 #pragma once
+#include "libopencm3/usb/usbstd.h"
 #ifndef STM32F1
   #define STM32F1
 #endif
@@ -67,3 +68,12 @@ static const struct usb_endpoint_descriptor usb_data_endp_dscrptr[] = {
         .wMaxPacketSize   = 64,
         .bInterval        = 1,
     } };
+
+static const struct usb_endpoint_descriptor usb_hid_endp_dscrptr[] = { {
+    .bLength          = USB_DT_ENDPOINT_SIZE,
+    .bDescriptorType  = USB_DT_ENDPOINT,
+    .bEndpointAddress = 0x81,
+    .bmAttributes     = USB_ENDPOINT_ATTR_INTERRUPT,
+    .wMaxPacketSize   = 8,
+    .bInterval        = 0x0A,
+} };

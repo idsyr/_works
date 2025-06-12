@@ -6,6 +6,8 @@
 #include "libopencm3/stm32/gpio.h"
 #include "libopencm3/usb/usbd.h"
 #include "libopencm3/usb/cdc.h"
+#include "libopencm3/usb/hid.h"
+#include "usb_hid_report_dscrptr.h"
 
 static const struct {
   struct usb_cdc_header_descriptor          header;
@@ -44,3 +46,24 @@ static const struct {
             .bSubordinateInterface0 = 1,
         },
 };
+
+static const struct {
+  struct usb_hid_descriptor hid_descriptor;
+
+  struct {
+    uint8_t  bReportDescriptorType;
+    uint16_t wDescriptorLength;
+  } __attribute__( ( packed ) ) hid_report;
+} __attribute__( ( packed ) ) usb_hid_func_dscrptr = {
+    .hid_descriptor =
+        {
+            .bLength         = sizeof( usb_hid_func_dscrptr ),
+            .bDescriptorType = USB_DT_HID,
+            .bcdHID          = 0x0100,
+            .bCountryCode    = 0,
+            .bNumDescriptors = 1,
+        },
+    .hid_report = {
+        .bReportDescriptorType = USB_DT_REPORT,
+        .wDescriptorLength     = sizeof( usb_hid_report_dscrptr ),
+    } };

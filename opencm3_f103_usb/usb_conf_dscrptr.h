@@ -13,14 +13,14 @@ static const struct usb_config_descriptor usb_conf_dscrptr = {
     .bLength             = USB_DT_CONFIGURATION_SIZE, // Size of Desciptor in Bytes
     .bDescriptorType     = USB_DT_CONFIGURATION,      // Configuration Desciptor (0x02)
     .wTotalLength        = 0,                         // Total length in bytes of data returned
-    .bNumInterfaces      = 2,                         // Number of Interfaces
+    .bNumInterfaces      = 3,                         // Number of Interfaces
     .bConfigurationValue = 1, // Value to use as an argument to select this configuration
     .iConfiguration      = 0, // Index of String Descriptor describing this configuration
     // D7 Reserved, set to 1. (USB 1.0 Bus Powered)
     // D6 Self Powered
     // D5 Remote Wakeup
     // D4..0 Reserved, set to 0
-    .bmAttributes = 0x80,
+    .bmAttributes = 0xC0,
     .bMaxPower    = 0x32, // Maximum Power Consumption in 2mA units
     .interface    = usb_iface,
 };
