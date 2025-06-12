@@ -9,7 +9,7 @@
 
 #include "usb_iface_dscrptr.h"
 
-static const struct usb_config_descriptor usb_conf_dscrptr = {
+static struct usb_config_descriptor usb_conf_dscrptr = {
     .bLength             = USB_DT_CONFIGURATION_SIZE, // Size of Desciptor in Bytes
     .bDescriptorType     = USB_DT_CONFIGURATION,      // Configuration Desciptor (0x02)
     .wTotalLength        = 0,                         // Total length in bytes of data returned

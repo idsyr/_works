@@ -7,7 +7,7 @@
 #include "libopencm3/usb/usbd.h"
 #include "libopencm3/usb/cdc.h"
 
-static const struct usb_device_descriptor usb_dev_dscrptr = {
+static struct usb_device_descriptor usb_dev_dscrptr = {
     .bLength            = USB_DT_DEVICE_SIZE, // Size of the Descriptor in Bytes (18 bytes)
     .bDescriptorType    = USB_DT_DEVICE,      // Device Descriptor (0x01)
     .bcdUSB             = 0x0200,             // USB Specification Number which device complies too

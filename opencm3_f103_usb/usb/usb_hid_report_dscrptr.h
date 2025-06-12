@@ -2,10 +2,8 @@
 #ifndef STM32F1
   #define STM32F1
 #endif
-#include "libopencm3/stm32/rcc.h"
-#include "libopencm3/stm32/gpio.h"
-#include "libopencm3/usb/usbd.h"
-#include "libopencm3/usb/cdc.h"
+
+#include <stdint.h>
 
 static const uint8_t usb_hid_report_dscrptr[] = {
     /* 0x05, 0x01, 0x09, 0x06, 0xA1, 0x01, 0x05, 0x07, 0x19, 0xE0, 0x29, 0xE7, 0x15, 0x00, */

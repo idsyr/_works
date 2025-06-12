@@ -69,7 +69,7 @@ static const struct usb_endpoint_descriptor usb_data_endp_dscrptr[] = {
         .bInterval        = 1,
     } };
 
-static const struct usb_endpoint_descriptor usb_hid_endp_dscrptr[] = { {
+static struct usb_endpoint_descriptor usb_hid_endp_dscrptr[] = { {
     .bLength          = USB_DT_ENDPOINT_SIZE,
     .bDescriptorType  = USB_DT_ENDPOINT,
     .bEndpointAddress = 0x81,
