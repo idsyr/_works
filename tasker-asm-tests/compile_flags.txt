@@ -1,0 +1,2 @@
+-I./../../libopencm3-template/libopencm3/include/
+-I./core
