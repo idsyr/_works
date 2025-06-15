@@ -15,6 +15,6 @@ typedef struct infoblock_theme {
 } infoblock_theme_t;
 
 widget_header_t   create_infoblock( char * label, int content_n, infoblock_theme_t * theme );
-void              draw_infoblock( infoblock_t * infoblock, area_t area );
+area_t            draw_infoblock( infoblock_t * infoblock, area_t area );
 
 #endif

@@ -14,7 +14,7 @@ typedef struct infoline_theme {
 } infoline_theme_t;
 
 widget_header_t create_infoline( char * label, char * info, infoline_theme_t * theme );
-void            draw_infoline( infoline_t * infoline, area_t area );
+area_t          draw_infoline( infoline_t * infoline, area_t area );
 void            destruct_infoline( infoline_t * infoline );
 
 char * const get_label( widget_header_t h );

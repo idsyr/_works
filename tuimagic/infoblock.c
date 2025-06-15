@@ -39,11 +39,11 @@ static void draw_label( infoblock_t * infoblock ) {
 }
 
 static void draw_with_seq_indent( widget_header_t h, area_t * area ) {
-  draw( h, *area ); // TODO: the draw f must return the h->widget size
-  ++area->y;        // area->y += widget_size;
+  area_t occupied_space = draw( h, *area );
+  area->y += occupied_space.y;
 }
 
-void draw_infoblock( infoblock_t * infoblock, area_t area ) {
+area_t draw_infoblock( infoblock_t * infoblock, area_t area ) {
   // clear_last_draw( infoblock ); // TODO: check the need
   delwin( infoblock->win );
   infoblock->win = newwin( area.h, area.w, area.y, area.x );
@@ -65,11 +65,12 @@ void draw_infoblock( infoblock_t * infoblock, area_t area ) {
 
   forall( infoblock->content, ( fun_forall_t )draw_with_seq_indent, &infoblock_area );
   wrefresh( infoblock->win );
+  return area;
 }
 
 void absorb_infoblock( infoblock_t * infoblock, widget_header_t h_slave ) { add( infoblock->content, h_slave ); }
 
-widget_interface_t const infoblock_interface = {
+widget_interface_t const static infoblock_interface = {
     .destruct = ( destruct_f )destruct_infoblock,
     .draw     = ( draw_f )draw_infoblock,
     .absorb   = ( absorb_f )absorb_infoblock,

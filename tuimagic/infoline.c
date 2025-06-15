@@ -30,11 +30,14 @@ static void draw_info( infoline_t * infoline, area_t area ) {
   attroff( COLOR_PAIR( infoline->info_theme ) );
 }
 
-void draw_infoline( infoline_t * infoline, area_t area ) {
+area_t draw_infoline( infoline_t * infoline, area_t area ) {
   refresh();
   draw_label( infoline, area );
   refresh();
   draw_info( infoline, area );
+  return ( area_t ){
+      .y = 1,
+  };
 }
 
 void absorb_infoline( infoline_t * infoline, widget_header_t widget ) { /* do nothing */ }
