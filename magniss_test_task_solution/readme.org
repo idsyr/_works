@@ -1,0 +1,5 @@
+#+author: idsyr
+
+#+html: <p align="center"><img src="plot_0.jpeg" /></p>
+#+html: <p align="center"><img src="plot_1.jpeg" /></p>
+#+html: <p align="center"><img src="plot_2.jpeg" /></p>
